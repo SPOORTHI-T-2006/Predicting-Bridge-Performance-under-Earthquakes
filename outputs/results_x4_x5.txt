@@ -1,0 +1,12 @@
+Features: x4_x5 | train=200 (pos=18) | test=49 (pos=3) | iters/ratio=100 | K=2
+Running Logistic Regression ...
+Running QDA ...
+Running KNN ...
+
+=== Results (avg over 5 pos:neg ratios x 100 bootstrap iterations) ===
+Model                    Train    Test   Test(damaged)   Test(undamaged)
+Logistic Regression      96.7%   90.8%           94.0%             90.6%
+QDA                      97.7%   93.4%           99.8%             93.0%
+KNN                      98.7%   88.0%           29.9%             91.8%
+
+Plots and summary.csv saved in /tmp/cleantest/outputs/x4_x5

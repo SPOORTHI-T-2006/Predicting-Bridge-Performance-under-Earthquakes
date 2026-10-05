@@ -1,0 +1,4 @@
+model,train_acc,test_acc,test_acc_positive,test_acc_negative
+Logistic Regression,0.9536,0.7383,0.8373,0.7320
+QDA,0.9791,0.9475,0.9940,0.9446
+KNN,0.9935,0.8048,0.2960,0.8373

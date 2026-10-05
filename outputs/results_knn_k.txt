@@ -1,0 +1,13 @@
+
+Optimal K (by cross-validation accuracy) = 2
+  K= 1  cv-accuracy=0.8418
+  K= 2  cv-accuracy=0.8460
+  K= 3  cv-accuracy=0.8314
+  K= 4  cv-accuracy=0.8440
+  K= 5  cv-accuracy=0.7988
+  K= 6  cv-accuracy=0.8108
+  K= 7  cv-accuracy=0.7512
+  K= 8  cv-accuracy=0.7830
+  K= 9  cv-accuracy=0.7672
+  K=10  cv-accuracy=0.7790
+Plot saved to /tmp/cleantest/outputs/knn_optimal_k.png

@@ -1,0 +1,57 @@
+Dataset: 249 records from 20 bridges (249 original + 0 extra)
+  binary    : undamaged=228, damaged=21
+  3-class   : No damage=228, Moderate/Severe=11, Partial/Overall collapse=10
+Evaluation: 5 x 5-fold CV, split = group; resampling applied to training folds only.
+
+=== BINARY (damaged vs undamaged): top 10 configurations by F1 on the damaged class ===
+                features resampling    model    accuracy balanced_acc      recall specificity   precision          f1     roc_auc
+      base: age+mag+dist      smote KNN(k=2) 0.990±0.004  0.968±0.010 0.943±0.021 0.994±0.004 0.935±0.037 0.939±0.020 0.982±0.014
+      base: age+mag+dist  bootstrap KNN(k=2) 0.987±0.002  0.950±0.001 0.905±0.000 0.995±0.002 0.941±0.020 0.922±0.010 0.973±0.001
+      base: age+mag+dist      smote      GMM 0.983±0.004  0.969±0.016 0.952±0.034 0.986±0.005 0.864±0.039 0.905±0.023 0.997±0.000
++ material + bridge type       none      LDA 0.982±0.002  0.947±0.001 0.905±0.000 0.989±0.002 0.888±0.023 0.896±0.012 0.993±0.001
+              + material       none      QDA 0.982±0.002  0.947±0.001 0.905±0.000 0.989±0.002 0.880±0.023 0.892±0.012 0.991±0.001
+              + material       none   LogReg 0.982±0.002  0.947±0.001 0.905±0.000 0.989±0.002 0.880±0.023 0.892±0.012 0.995±0.002
++ material + bridge type       none   LogReg 0.982±0.002  0.947±0.001 0.905±0.000 0.989±0.002 0.880±0.023 0.892±0.012 0.995±0.002
+      base: age+mag+dist       none      LDA 0.981±0.003  0.946±0.002 0.905±0.000 0.988±0.004 0.873±0.033 0.888±0.017 0.995±0.001
+      base: age+mag+dist       none   LogReg 0.981±0.002  0.946±0.001 0.905±0.000 0.988±0.002 0.872±0.018 0.888±0.009 0.995±0.001
+              + material       none      LDA 0.980±0.004  0.946±0.002 0.905±0.000 0.987±0.004 0.865±0.039 0.884±0.021 0.994±0.002
+
+Paper-style baseline (QDA, age+mag+dist, bootstrap) under the same bridge-wise evaluation:
+          features resampling model    accuracy balanced_acc      recall specificity   precision          f1     roc_auc
+base: age+mag+dist  bootstrap   QDA 0.965±0.004  0.937±0.002 0.905±0.000 0.970±0.005 0.737±0.031 0.812±0.019 0.994±0.001
+
+Sanity baseline - logistic regression on magnitude ALONE (best resampling = bootstrap): F1=0.650, recall=1.000, specificity=0.901, AUC=0.968
+
+Effect of features (best F1 within each feature set; baseline excluded):
+  base: age+mag+dist           KNN(k=2)    smote     F1=0.939  recall=0.943  specificity=0.994
+  + material                   LogReg      none      F1=0.892  recall=0.905  specificity=0.989
+  + material + bridge type     LDA         none      F1=0.896  recall=0.905  specificity=0.989
+
+Generative models only (best config of each):
+  GMM         F1=0.905  bal.acc=0.969  AUC=0.997  (base: age+mag+dist, smote)
+  GaussianNB  F1=0.621  bal.acc=0.944  AUC=0.952  (base: age+mag+dist, smote)
+  LDA         F1=0.896  bal.acc=0.947  AUC=0.993  (+ material + bridge type, none)
+  QDA         F1=0.892  bal.acc=0.947  AUC=0.991  (+ material, none)
+  QDA-reg     F1=0.880  bal.acc=0.945  AUC=0.993  (+ material, none)
+[binary finished in 5s]
+
+=== MULTI-CLASS (none / moderate-severe / collapse): top 10 configurations by macro-F1 ===
+                features resampling   model    accuracy balanced_acc    macro_f1 recall_none recall_moderate recall_collapse
++ material + bridge type       none     LDA 0.959±0.002  0.742±0.001 0.742±0.005 0.990±0.002     0.636±0.000     0.600±0.000
+              + material       none     LDA 0.953±0.005  0.717±0.033 0.713±0.036 0.988±0.002     0.564±0.100     0.600±0.000
+      base: age+mag+dist       none     LDA 0.952±0.003  0.700±0.017 0.696±0.017 0.989±0.002     0.491±0.050     0.620±0.045
+              + material       none  LogReg 0.951±0.002  0.687±0.013 0.690±0.013 0.989±0.002     0.491±0.050     0.580±0.045
+              + material       none     GMM 0.947±0.010  0.666±0.052 0.675±0.063 0.988±0.005     0.491±0.138     0.520±0.045
++ material + bridge type      smote  LogReg 0.934±0.006  0.722±0.027 0.674±0.026 0.965±0.005     0.600±0.081     0.600±0.000
++ material + bridge type       none QDA-reg 0.950±0.005  0.663±0.028 0.672±0.031 0.992±0.002     0.436±0.076     0.560±0.055
++ material + bridge type       none  LogReg 0.949±0.002  0.669±0.017 0.670±0.017 0.989±0.002     0.436±0.041     0.580±0.045
+              + material       none QDA-reg 0.947±0.005  0.662±0.036 0.668±0.035 0.989±0.002     0.436±0.076     0.560±0.055
++ material + bridge type  bootstrap     GMM 0.944±0.006  0.685±0.044 0.663±0.041 0.981±0.002     0.655±0.041     0.420±0.110
+
+Effect of features (best macro-F1 within each feature set):
+  base: age+mag+dist           LDA         none      macro-F1=0.696
+  + material                   LDA         none      macro-F1=0.713
+  + material + bridge type     LDA         none      macro-F1=0.742
+[multiclass finished in 7s]
+
+All tables (CSV) and plots saved in /tmp/cleantest/outputs/future_work
